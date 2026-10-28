@@ -6,14 +6,14 @@
 
 // --- Pin Allocations ---
 #define MPU6050_ADDR 0x68
-#define LED_RED_PIN   12  // Error / Active Disturb
-#define LED_GREEN_PIN 13  // Target Acquired / SNN Lock
-#define LED_BLUE_PIN  14  // Levitating / Search State
+#define LED_RED_PIN    12  // Error / Active Disturb
+#define LED_GREEN_PIN  13  // Target Acquired / SNN Lock
+#define LED_BLUE_PIN   14  // Levitating / Search State
 
 // --- Stepper Motor Configuration (28BYJ-48 + ULN2003) ---
 const int stepsPerRevolution = 2048; 
-// Clean non-tangling pin mapping: 1N1->D21, 1N2->D19, 1N3->D18, 1N4->D5
-Stepper myStepper(stepsPerRevolution, 21, 19, 18, 5);
+// Updated clean non-tangling pin mapping for physical assembly: D32, D33, D25, D26
+Stepper myStepper(stepsPerRevolution, 32, 33, 25, 26);
 
 // --- Shared Thread-Safe Variables ---
 portMUX_TYPE timerMux = {}; // Updated for modern ESP32 toolchains
@@ -85,7 +85,7 @@ void ControlTask(void * parameter) {
 // CORE 0: Setup & Telemetry / Wi-Fi Stack
 // ==========================================
 void setup() {
-  Serial.begin(115200);
+  Serial.begin(9600); // Updated to 9600 baud
   Wire.begin();
   Wire.setClock(400000); // 400kHz Fast I2C
 
@@ -111,13 +111,13 @@ void setup() {
 
   // Pin Control Task to Core 1
   xTaskCreatePinnedToCore(
-    ControlTask,          /* Task function */
-    "ControlTask",        /* Name */
-    10000,                /* Stack size */
-    NULL,                 /* Parameter */
-    1,                    /* Priority */
-    &ControlTaskHandle,   /* Handle */
-    1                     /* Core 1 */
+    ControlTask,        /* Task function */
+    "ControlTask",      /* Name */
+    10000,              /* Stack size */
+    NULL,               /* Parameter */
+    1,                  /* Priority */
+    &ControlTaskHandle, /* Handle */
+    1                   /* Core 1 */
   );
 }
 

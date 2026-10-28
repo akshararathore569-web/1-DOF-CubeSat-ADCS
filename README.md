@@ -32,7 +32,7 @@ This project bridges embedded systems, real-time control loops, and neuromorphic
 The telemetry dashboard streams live state estimates over UDP, allowing real-time tuning of control parameters and visualization of phase portraits during simulated orbital maneuvers
 ---
 
-## 🔗 Integrated System Context
+## Integrated System Context
 This repository houses the core control, hardware, and simulation infrastructure. It pairs directly with our neuromorphic perception pipeline to form a complete, modular aerospace testbench:
 * **Control & Hardware Subsystem:** [`1-DOF-CubeSat-ADCS`](https://github.com/akshararathore569-web/1-DOF-CubeSat-ADCS)
 * **Perception & Vision Subsystem:** [`neuromorphic-event-tracker`](https://github.com/akshararathore569-web/neuromorphic-event-tracker)
